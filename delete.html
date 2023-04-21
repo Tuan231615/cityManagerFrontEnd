@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="City.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</head>
+<body>
+<script>
+    $(document).ready(function() {
+        let queryString = window.location.search;
+        let urlParams = new URLSearchParams(queryString);
+        var id = urlParams.get('id');
+        $('#id').text(id);
+    });
+</script>
+</body>
+</html>

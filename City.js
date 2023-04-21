@@ -13,7 +13,9 @@ function getAllCity() {
 <td>${data[i].gdp}</td>
 <td>${data[i].description}</td>
 <td><button onclick="editCityById(${data[i].id})">Edit</button></td>
+<td><button onclick="formDelete(${data[i].id})">DeleteForm</button></td>
 <td><button onclick="deleteCityById(${data[i].id})">Delete</button></td>
+
 <td><button onclick="viewById(${data[i].id})">View</button></td>
 </tr>`
             }
@@ -56,11 +58,12 @@ function CreateCity() {
 }
 
 function deleteCityById(id) {
+    event.preventDefault()
     $.ajax({
         type: "DELETE",
         url: "http://localhost:8080/city/delete/" + id,
         success: function (data) {
-            getAllCity();
+             deleteConFirm();
             alert("Delete city successfully!");
         }
     })
@@ -87,7 +90,16 @@ function viewById(id) {
         }
     })
 }
-
+function formDelete(id){
+    $.ajax({
+        url:"http://localhost:8080/city/find/"+id,
+        type:"GET",
+        success:function (data) {
+            var queryString = $.param(data);
+            window.location.href = "../fETh/delete.html?" + queryString;
+        }
+    })
+}
 function editCityById(id) {
     event.preventDefault()
     let cityName = document.getElementById("cityName").value;
@@ -112,9 +124,14 @@ function editCityById(id) {
         type: "PUT",
         url: "http://localhost:8080/city/update/" + id,
         data: JSON.stringify(newCity),
-        success: function (data) {
+        success: function () {
             getAllCity();
-            alert("Edit city successfully!");
+             alert("Edit city successfully!");
         }
     })
+}
+function deleteConFirm() {
+    if (confirm("Are you sure?")) {
+        window.getAllCity();
+    }
 }
